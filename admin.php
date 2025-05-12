@@ -303,7 +303,7 @@ if (!$isAuthenticated) {
         // Load releases
         async function loadReleases() {
             try {
-                const response = await fetch('index.php?path=api/updates/releases/all');
+                const response = await fetch('/api/updates/releases/all');
                 if (response.ok) {
                     const releases = await response.json();
                     const releasesDiv = document.getElementById('releases');
@@ -349,7 +349,7 @@ if (!$isAuthenticated) {
             if (linuxUrl) assets.push({ platform: 'linux', browser_download_url: linuxUrl });
 
             try {
-                const response = await fetch('index.php?path=api/admin/publish', {
+                const response = await fetch('/api/admin/publish', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

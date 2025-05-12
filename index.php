@@ -20,9 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Get request path
-$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$requestPath = trim($requestPath, '/');
+// Get request path from either REQUEST_URI or path parameter
+$requestPath = '';
+if (isset($_GET['path'])) {
+    $requestPath = $_GET['path'];
+} else {
+    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $requestPath = trim($requestPath, '/');
+}
 
 // Handle different routes
 switch ($requestPath) {
@@ -48,7 +53,7 @@ switch ($requestPath) {
             handleVersionRelease($matches[1]);
         } else {
             http_response_code(404);
-            echo json_encode(['error' => 'Not Found']);
+            echo json_encode(['error' => 'Not Found', 'path' => $requestPath]);
         }
 }
 
